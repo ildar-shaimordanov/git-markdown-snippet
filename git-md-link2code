@@ -22,6 +22,10 @@ While parsing a file the script looks for the links formatted as follows:
 The C<code> is mandatory as it marks the link specified to be replaced
 with the content of the specified file.
 
+Another way to turn on the line range and numbering:
+
+  [code...](path#LLINE1-LLINE2)
+
 =over 4
 
 =item B<code>[=I<TITLE>]
@@ -54,11 +58,13 @@ separated by comma and/or a range of lines separated by dash.
 
 =head2 Example 1
 
-Assume the following link:
+Assume the following two links:
 
   [code;lang=perl;numbers;lines=3-9](git-md-link2code)
 
-It will be translated into the following code:
+  [code;lang=perl](git-md-link2code#L3-L9)
+
+Both will be translated into the following code:
 
   ```perl
   3: =head1 NAME
@@ -77,7 +83,7 @@ Ildar Shaimordanov E<lt>F<ildar.shaimordanov@gmail.com>E<gt>
 
 =head1 COPYRIGHT
 
-Copyright (c) 2019 Ildar Shaimordanov. All rights reserved.
+Copyright (c) 2019, 2020 Ildar Shaimordanov. All rights reserved.
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.
@@ -135,6 +141,20 @@ sub prepare_code {
 
 	my $number = exists $opts{numbers} ? \&number_1 : \&number_0;
 	my $ranges = @{ $opts{ranges} } ? \&ranges_1 : \&ranges_0;
+
+	if ( $file =~ m/
+		([^#]+)
+		(?:
+		\#L(\d+)(?:-L(\d+))?
+		)?
+	/x ) {
+		$file = $1;
+		my $L1 = $2;
+		my $L2 = $3 // $L1;
+		$opts{ranges} = [ [ $L1, $L2 ] ];
+		$number = \&number_1;
+		$ranges = \&ranges_1;
+	}
 
 	my @lines = ();
 

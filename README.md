@@ -47,13 +47,17 @@ with the content of the specified file.
 
 ## Example 1
 
-Assume the following link:
+Assume the following two links:
 
 ```
 [code;lang=perl;numbers;lines=3-9](git-md-link2code)
 ```
 
-It will be translated into the following code:
+```
+[code;lang=perl](git-md-link2code#L3-L9)
+```
+
+Both will be translated into the following code:
 
   ```perl
   3: =head1 NAME

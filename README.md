@@ -1,15 +1,15 @@
-# git-markdown-link2code
+# git-markdown-snippet
 
-translate markdown links to embedded codes
+translate markdown links to embedded code snippets
 
 # NAME
 
-`git-md-link2code` - translate markdown links to embedded codes
+`git-md-snippet` - translate markdown links to embedded codes
 
 # SYNOPSIS
 
 ```
-git-md-link2code < FILE1 > FILE2
+git-md-snippet < FILE1 > FILE2
 ```
 
 # DESCRIPTION
@@ -59,11 +59,11 @@ code snippet.
 Assume the following two links:
 
 ```
-[code;lang=perl;numbers;lines=3-9](git-md-link2code)
+[code;lang=perl;numbers;lines=3-9](git-md-snippet)
 ```
 
 ```
-[code;lang=perl](git-md-link2code#L3-L9)
+[code;lang=perl](git-md-snippet#L3-L9)
 ```
 
 Both will be translated into the following code:
@@ -71,10 +71,10 @@ Both will be translated into the following code:
   ```perl
   3: =head1 NAME
   4:
-  5: git-md-link2code - translate markdown links to embedded codes
+  5: git-md-snippet - translate markdown links to embedded code snippets
   6:
   7: =head1 SYNOPSIS
   8:
-  9:   git-md-link2code < FILE1 > FILE2
+  9:   git-md-snippet < FILE1 > FILE2
   
   ```

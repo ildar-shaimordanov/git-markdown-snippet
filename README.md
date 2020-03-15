@@ -43,6 +43,15 @@ with the content of the specified file.
   Specifies the lines to be printed. This parameter can be either a list
   separated by comma and/or a range of lines separated by dash.
 
+Another way to turn on the line range and numbering:
+
+```
+[code...](path#LLINE1-LLINE2)
+```
+where `LINE1` and `LINE2` are line numbers to be extracted. This feature
+is compatible with GitHub's way for creating a permanent link to a
+code snippet.
+
 # EXAMPLES
 
 ## Example 1

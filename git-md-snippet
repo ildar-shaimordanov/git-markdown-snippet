@@ -22,14 +22,6 @@ While parsing a file the script looks for the links formatted as follows:
 The C<code> is mandatory as it marks the link specified to be replaced
 with the content of the specified file.
 
-Another way to turn on the line range and numbering:
-
-  [code...](path#LLINE1-LLINE2)
-
-where `LINE1` and `LINE2` are line numbers to be extracted. This feature
-is compatible with GitHub's way for creating a permanent link to a
-code snippet.
-
 =over 4
 
 =item B<code>[=I<TITLE>]
@@ -57,6 +49,15 @@ Specifies the lines to be printed. This parameter can be either a list
 separated by comma and/or a range of lines separated by dash.
 
 =back
+
+Another way to turn on the line range and numbering:
+
+  [code...](path#LLINE1-LLINE2)
+
+where I<LINE1> and I<LINE2> are define the range of line numbers to be
+extracted. This feature is compatible with GitHub's way for creating a
+permanent link to a code snippet. This format overrides inlined B<numbers>
+and B<lines> and turns on the line numbering implicitly.
 
 =head1 EXAMPLES
 

@@ -52,6 +52,11 @@ where `LINE1` and `LINE2` are line numbers to be extracted. This feature
 is compatible with GitHub's way for creating a permanent link to a
 code snippet.
 
+where `LINE1` and `LINE2` are define the range of line numbers to be
+extracted. This feature is compatible with GitHub's way for creating a
+permanent link to a code snippet. This format overrides inlined `numbers`
+and `lines` and turns on the line numbering implicitly.
+
 # EXAMPLES
 
 ## Example 1

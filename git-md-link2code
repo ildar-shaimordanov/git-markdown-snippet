@@ -148,9 +148,7 @@ sub prepare_code {
 
 	if ( $file =~ m/
 		([^#]+)
-		(?:
 		\#L(\d+)(?:-L(\d+))?
-		)?
 	/x ) {
 		$file = $1;
 		my $L1 = $2;

@@ -1,10 +1,10 @@
 # git-markdown-snippet
 
-translate markdown links to embedded code snippets
+_translate markdown links to embedded code snippets_
 
 # NAME
 
-`git-md-snippet` - translate markdown links to embedded codes
+`git-md-snippet` - translate markdown links to embedded code snippets
 
 # SYNOPSIS
 

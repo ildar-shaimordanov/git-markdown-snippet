@@ -61,22 +61,27 @@ and `lines` and turns on the line numbering implicitly.
 Assume the following two links:
 
 ```
-[code;lang=perl;numbers;lines=3-9](git-md-snippet)
+[code;lang=perl;numbers;lines=3-14](git-md-snippet)
 ```
 
 ```
-[code;lang=perl](git-md-snippet#L3-L9)
+[code;lang=perl](git-md-snippet#L3-L14)
 ```
 
 Both will be translated into the following code:
 
   ```perl
-  3: =head1 NAME
-  4:
-  5: git-md-snippet - translate markdown links to embedded code snippets
-  6:
-  7: =head1 SYNOPSIS
-  8:
-  9:   git-md-snippet < FILE1 > FILE2
+   3: =head1 NAME
+   4:
+   5: git-md-snippet - translate markdown links to embedded code snippets
+   6:
+   7: =head1 SYNOPSIS
+   8:
+   9:   git-md-snippet < FILE1 > FILE2
+  10:
+  11: =head1 DESCRIPTION
+  12:
+  13: Read an input and translate links to the files of the repository to the
+  14: code blocks and embed them replacing the links with codes.
   
   ```

@@ -2,6 +2,17 @@
 
 _translate markdown links to embedded code snippets_
 
+<!-- md-toc-begin -->
+# Table of Content
+* [git-markdown-snippet](#git-markdown-snippet)
+* [NAME](#name)
+* [SYNOPSIS](#synopsis)
+* [DESCRIPTION](#description)
+* [FORMAT](#format)
+* [EXAMPLES](#examples)
+  * [Example 1](#example-1)
+<!-- md-toc-end -->
+
 # NAME
 
 `git-md-snippet` - translate markdown links to embedded code snippets

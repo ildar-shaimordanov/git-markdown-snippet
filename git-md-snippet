@@ -1,5 +1,10 @@
 #!/usr/bin/env perl
 
+=pod
+
+=for pod2readme
+  pod2wiki --style=markdown | git-md-toc -cut
+
 =head1 NAME
 
 git-md-snippet - translate markdown links to embedded code snippets
@@ -17,36 +22,54 @@ code blocks and embed them replacing the links with codes.
 
 While parsing a file the script looks for the links formatted as follows:
 
-  [code=TITLE;url;lang=LANG;numbers;lines=LINES](path)
+  [code=TITLE;url;lang=LANG;numbers;lines=LINES;fence=FENCE](path)
 
 The C<code> is mandatory as it marks the link specified to be replaced
 with the content of the specified file.
 
 =over 4
 
-=item B<code>[=I<TITLE>]
+=item *
+
+B<code>[=I<TITLE>]
 
 Marks the special link. The optional parameter I<TITLE> is a text to
 be used as a text under link. If it is not specified, the original link
 will be used.
 
-=item B<url>
+=item *
+
+B<url>
 
 Outputs the link to the original file.
 
-=item B<lang>=I<LANG>
+=item *
+
+B<lang>=I<LANG>
 
 Triggers the markdown system to colorize the embedded code accordingly
 the specified language.
 
-=item B<numbers>
+=item *
+
+B<numbers>
 
 Prints the line numbers in the beginning of each line.
 
-=item B<lines>=I<LINES>
+=item *
+
+B<lines>=I<LINES>
 
 Specifies the lines to be printed. This parameter can be either a list
 separated by comma and/or a range of lines separated by dash.
+
+=item *
+
+B<fence>=I<backtick | tilde>
+
+Use backtick characters B<`> (ASCII 96) or tildes B<~> (ASCII 126) for
+fencing code blocks. It can be useful, when for some reason you need to
+fence a code already containing fencing within. Defaults to backtick.
 
 =back
 
@@ -54,7 +77,7 @@ Another way to turn on the line range and numbering:
 
   [code...](path#LLINE1-LLINE2)
 
-where I<LINE1> and I<LINE2> are define the range of line numbers to be
+where C<LINE1> and C<LINE2> are define the range of line numbers to be
 extracted. This feature is compatible with GitHub's way for creating a
 permanent link to a code snippet. This format overrides inlined B<numbers>
 and B<lines> and turns on the line numbering implicitly.
@@ -65,13 +88,15 @@ and B<lines> and turns on the line numbering implicitly.
 
 Assume the following two links:
 
-  [code;lang=perl;numbers;lines=3-14](git-md-snippet)
+  [code;lang=perl;numbers;lines=3-14;fence=tilde](git-md-snippet)
 
-  [code;lang=perl](git-md-snippet#L3-L14)
+and
+
+  [code;lang=perl;fence=tilde](git-md-snippet#L3-L14)
 
 Both will be translated into the following code:
 
-  ```perl
+  ~~~perl
    3: =head1 NAME
    4:
    5: git-md-snippet - translate markdown links to embedded code snippets
@@ -84,8 +109,8 @@ Both will be translated into the following code:
   12:
   13: Read an input and translate links to the files of the repository to the
   14: code blocks and embed them replacing the links with codes.
-  
-  ```
+
+  ~~~
 
 =head1 AUTHORS
 
@@ -93,7 +118,7 @@ Ildar Shaimordanov E<lt>F<ildar.shaimordanov@gmail.com>E<gt>
 
 =head1 COPYRIGHT
 
-Copyright (c) 2019, 2020 Ildar Shaimordanov. All rights reserved.
+Copyright (c) 2019-2021 Ildar Shaimordanov. All rights reserved.
 
   MIT License
 
@@ -126,6 +151,9 @@ sub parse_range {
 	return sort { $a->[0] <=> $b->[0] } @r;
 }
 
+my %fence_list = qw( backtick ``` tilde ~~~ );
+my $default_fence = "backtick";
+
 sub parse_options {
 	my $opts = shift;
 	my %opts = ();
@@ -133,6 +161,7 @@ sub parse_options {
 		my ( $k, $v ) = split "=";
 		$opts{$k} = $v // '';
 	}
+	$opts{fence} = $fence_list{ $opts{fence} || $default_fence } || $fence_list{$default_fence};
 	$opts{ranges} = [ parse_range $opts{lines} ];
 	$opts{len} = 0;
 	foreach ( @{ $opts{ranges} } ) {
@@ -179,7 +208,7 @@ sub prepare_code {
 
 	my $text = $opts{code} || $file;
 
-	return sprintf("%s\n```%s\n%s\n```\n",
+	return sprintf("%s\n$opts{fence}%s\n%s\n$opts{fence}\n",
 		exists $opts{url} ? "[$text]($file)" : "",
 		$opts{lang} || "",
 		join "", @lines) if @lines;

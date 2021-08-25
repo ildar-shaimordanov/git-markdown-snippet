@@ -1,10 +1,5 @@
 #!/usr/bin/env perl
 
-=pod
-
-=for pod2readme
-  pod2wiki --style=markdown | git-md-toc -cut
-
 =head1 NAME
 
 git-md-snippet - translate markdown links to embedded code snippets
@@ -130,11 +125,7 @@ use warnings;
 use Getopt::Long;
 use Pod::Usage;
 
-exit 1 unless GetOptions(
-	"h|help"	=> sub {
-		pod2usage({ -verbose => 2, -noperldoc => 1 });
-	},
-);
+pod2usage({ -verbose => 2, -noperldoc => 1 }) if ! @ARGV && -t 0;
 
 # =========================================================================
 

@@ -17,7 +17,7 @@ code blocks and embed them replacing the links with codes.
 
 While parsing a file the script looks for the links formatted as follows:
 
-  [code=TITLE;url;lang=LANG;numbers;lines=LINES;fence=FENCE](path)
+  [code=TITLE;url;lang=LANG;numbers;lines=LINES;fence=FENCE;ellipsis](path)
 
 The C<code> is mandatory as it marks the link specified to be replaced
 with the content of the specified file.
@@ -65,6 +65,13 @@ B<fence>=I<backtick | tilde>
 Use backtick characters B<`> (ASCII 96) or tildes B<~> (ASCII 126) for
 fencing code blocks. It can be useful, when for some reason you need to
 fence a code already containing fencing within. Defaults to backtick.
+
+=item *
+
+B<ellipsis>
+
+Print ellipsis (B<...>) to show gaps between different fragments of
+one snippet.
 
 =back
 
@@ -189,11 +196,20 @@ sub prepare_code {
 	}
 
 	my @lines = ();
+	my $last_line_number = 0;
 
 	open FILE, "$file" or warn "Unable to open file: $file\n" and return;
 	while ( <FILE> ) {
-		push @lines, $number->($., $_, $opts{len})
-			if $ranges->($opts{ranges});
+		next unless $ranges->($opts{ranges});
+
+		push @lines, "...\n"
+			if exists $opts{ellipsis}
+			&& $last_line_number
+			&& $. - $last_line_number > 1;
+
+		$last_line_number = $.;
+
+		push @lines, $number->($., $_, $opts{len});
 	}
 	close FILE;
 

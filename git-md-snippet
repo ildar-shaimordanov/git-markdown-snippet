@@ -22,6 +22,9 @@ While parsing a file the script looks for the links formatted as follows:
 The C<code> is mandatory as it marks the link specified to be replaced
 with the content of the specified file.
 
+The code link MUST be stick to the beginning of the line (no any white
+spaces are permitted).
+
 =over 4
 
 =item *
@@ -224,7 +227,7 @@ sub prepare_code {
 # =========================================================================
 
 while ( <> ) {
-	m/^\s*\[(code\b.*)\]\(([^()]+)\)\s*$/ and do {
+	m/^\[(code\b.*)\]\(([^()]+)\)\s*$/ and do {
 		my %opts = parse_options $1;
 		my $code = prepare_code $2, %opts;
 		$_ = $code if $code;

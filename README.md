@@ -34,6 +34,8 @@ While parsing a file the script looks for the links formatted as follows:
 ```
 The `code` is mandatory as it marks the link specified to be replaced with the content of the specified file.
 
+The code link MUST be stick to the beginning of the line (no any white spaces are permitted).
+
 * **code**[=_TITLE_]
   Marks the special link. The optional parameter _TITLE_ is a text to be used as a text under link. If it is not specified, the original link will be used.
 
